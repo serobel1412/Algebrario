@@ -1,0 +1,9 @@
+{
+  "routes": [
+    { "path": "/", "title": "Inicio — Algebrario" },
+    { "path": "/tema/:slug", "title": "Tema de álgebra — Algebrario" },
+    { "path": "/practica", "title": "Práctica — Algebrario" },
+    { "path": "/calculadora", "title": "Calculadora — Algebrario" },
+    { "path": "/404", "title": "Página no encontrada — Algebrario" }
+  ]
+}
