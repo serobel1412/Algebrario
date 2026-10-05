@@ -171,7 +171,7 @@ function vitePluginPublicPlatformConfig(): Plugin {
 const plugins = [vitePluginPublicPlatformConfig(), react(), tailwindcss(), jsxLocPlugin(), vitePluginManusDebugCollector()];
 
 export default defineConfig({
-  base: "/Algebrario/",
+  base: process.env.GITHUB_ACTIONS === "true" ? "/Algebrario/" : "/",
   plugins,
   resolve: {
     alias: {

@@ -14,9 +14,11 @@ import {
   FunctionSquare,
   Lightbulb,
   Menu,
+  Moon,
   Play,
   Search,
   Sparkles,
+  Sun,
   Target,
   X,
   Zap,
@@ -25,6 +27,7 @@ import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from
 import { Link, Route, Router as WouterRouter, Switch, useLocation, useRoute } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { useTheme } from "./contexts/ThemeContext";
 import { topicBySlug, topics, type Difficulty, type Exercise, type Topic } from "./data/topics";
 import { evaluateExpression, solveLinearEquation } from "./lib/algebra";
 import { useStudyProgress } from "./hooks/useStudyProgress";
@@ -39,6 +42,7 @@ function BrandMark({ small = false }: { small?: boolean }) {
 
 function Header({ completion }: { completion: number }) {
   const [open, setOpen] = useState(false);
+  const { theme, toggleTheme } = useTheme();
   const [location] = useLocation();
   const [hash, setHash] = useState(() => window.location.hash);
   useEffect(() => {
@@ -61,6 +65,7 @@ function Header({ completion }: { completion: number }) {
         {items.map(([label, href]) => <Link key={href} href={href} className={(href === "/" && location === "/" && hash !== "#temas") || (href === "/#temas" && (location.startsWith("/tema/") || hash === "#temas")) || (href !== "/" && href !== "/#temas" && location === href) ? "nav-link active" : "nav-link"} onClick={() => setOpen(false)}>{label}</Link>)}
       </nav>
       <div className="header-actions">
+        <button className="theme-toggle" onClick={toggleTheme} aria-label={theme === "light" ? "Activar modo oscuro" : "Activar modo claro"} title={theme === "light" ? "Activar modo oscuro" : "Activar modo claro"}>{theme === "light" ? <Moon size={17} /> : <Sun size={17} />}</button>
         <div className="header-progress" title={`${completion}% de la ruta completada`}><span className="progress-dot" /><span>{completion}%</span></div>
         <button className="menu-button" onClick={() => setOpen(!open)} aria-label={open ? "Cerrar menú" : "Abrir menú"} aria-expanded={open} aria-controls="main-navigation">{open ? <X size={20} /> : <Menu size={20} />}</button>
       </div>
@@ -171,7 +176,7 @@ function Router(progress: ReturnType<typeof useStudyProgress>) {
 function App() {
   const progress = useStudyProgress();
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster /><WouterRouter base={basePath}><Router {...progress} /></WouterRouter></TooltipProvider></ThemeProvider></ErrorBoundary>;
+  return <ErrorBoundary><ThemeProvider defaultTheme="light" switchable><TooltipProvider><Toaster /><WouterRouter base={basePath}><Router {...progress} /></WouterRouter></TooltipProvider></ThemeProvider></ErrorBoundary>;
 }
 
 export default App;

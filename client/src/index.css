@@ -40,6 +40,23 @@
   --radius: 14px;
 }
 
+html.dark {
+  color-scheme: dark;
+  --ink: #eef3f2;
+  --ink-soft: #b5c2c4;
+  --paper: #101a23;
+  --paper-deep: #162833;
+  --card: #1b2d37;
+  --coral: #f08a70;
+  --coral-deep: #ffad94;
+  --line: #354b55;
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --muted: #243b46;
+  --muted-foreground: var(--ink-soft);
+  --border: var(--line);
+}
+
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; min-width: 320px; background: var(--paper); color: var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
@@ -60,6 +77,8 @@ a { color: inherit; text-decoration: none; }
 .nav-link { color: #73808a; font-size: 13px; font-weight: 650; transition: color .2s ease; }
 .nav-link:hover, .nav-link.active { color: var(--ink); }
 .header-actions { display: flex; align-items: center; gap: 15px; }
+.theme-toggle { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--line); border-radius: 50%; background: var(--card); color: var(--ink); cursor: pointer; transition: background .2s ease, color .2s ease, transform .2s ease; }
+.theme-toggle:hover { background: var(--ink); color: var(--paper); transform: translateY(-1px); }
 .header-progress { display: flex; align-items: center; gap: 7px; color: var(--ink-soft); font-size: 12px; font-weight: 700; }
 .progress-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--coral); box-shadow: 0 0 0 4px rgba(232,109,84,.13); }
 .menu-button { display: none; border: 0; background: transparent; color: var(--ink); padding: 6px; }
@@ -124,6 +143,13 @@ h1 em, h2 em, h3 em { color: var(--coral); font-style: italic; }
 
 .calculator-mark { margin-right: 110px; border-radius: 21px; transform: rotate(8deg); }.calculator-mark span { position: absolute; right: 18px; bottom: 26px; font-family: Georgia, serif; font-size: 27px; font-style: italic; }.calculator-layout { grid-template-columns: minmax(0, 1fr) 260px; }.calculator-card { max-width: 650px; border: 1px solid var(--line); border-radius: 12px; padding: 28px; background: var(--card); }.calc-tabs { display: flex; gap: 22px; border-bottom: 1px solid var(--line); }.calc-tabs button { border: 0; border-bottom: 2px solid transparent; padding: 0 0 13px; background: transparent; color: #8a9598; font-size: 11px; font-weight: 800; cursor: pointer; }.calc-tabs button.active { border-color: var(--coral); color: var(--ink); }.calc-form { display: grid; gap: 20px; padding: 30px 0 22px; }.calc-form input { height: 47px; border: 1px solid var(--line); border-radius: 7px; padding: 0 13px; outline: 0; background: #fffdfa; color: var(--ink); font-size: 15px; }.calc-examples { display: flex; align-items: center; flex-wrap: wrap; gap: 7px; color: #8a9598; font-size: 10px; }.calc-examples button { border: 1px solid var(--line); border-radius: 20px; padding: 6px 9px; background: transparent; color: var(--ink); font-family: Georgia, serif; font-size: 11px; cursor: pointer; }.calc-button { width: 100%; }.calc-result { display: flex; align-items: start; gap: 13px; margin-top: 20px; border-radius: 9px; padding: 15px; }.calc-result.success { background: #edf5ee; color: #547860; }.calc-result.failure { background: #fff0eb; color: #a34f3f; }.result-icon { display: grid; place-items: center; width: 28px; height: 28px; flex: none; border-radius: 50%; background: currentColor; color: white; }.calc-result span { display: block; margin-bottom: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: .1em; }.calc-result strong { display: block; font-family: Georgia, serif; font-size: 22px; font-weight: 400; }.calc-result p { margin: 5px 0 0; color: inherit; font-size: 11px; }.calculator-aside { display: flex; flex-direction: column; gap: 20px; }.aside-tip.large { margin: 0; }.mini-progress { display: grid; gap: 20px; border: 1px solid var(--line); border-radius: 10px; padding: 20px; background: var(--card); }.mini-progress .text-link { justify-self: start; font-size: 10px; }
 .not-found { padding: 120px 0 180px; }.not-found p { color: var(--muted-foreground); margin: 0 0 25px; }
+html.dark .site-header { background: rgba(16,26,35,.93); border-bottom-color: rgba(53,75,85,.82); }
+html.dark .graph-paper { border-color: rgba(238,243,242,.16); background-color: #1d323c; background-image: linear-gradient(rgba(238,243,242,.06) 1px, transparent 1px), linear-gradient(90deg, rgba(238,243,242,.06) 1px, transparent 1px); box-shadow: 14px 16px 0 rgba(0,0,0,.16); }
+html.dark .axis { background: rgba(238,243,242,.5); }
+html.dark .formula-note, html.dark .button-ghost { background: var(--card); }
+html.dark .answer-input, html.dark .calc-form input { background: #14242d; }
+html.dark .choice:hover, html.dark .choice.selected { background: #3b2c2b; }
+html.dark .difficulty-badge { background: #2b3d45; color: var(--ink-soft); }
 
 @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; gap: 20px; }.hero-visual { max-width: 600px; width: 100%; margin: 0 auto; }.dashboard-grid, .topic-layout { grid-template-columns: 1fr; }.topic-aside { order: -1; }.aside-sticky { position: static; display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }.aside-tip { grid-column: span 2; }.topic-grid { grid-template-columns: repeat(2, 1fr); }.practice-layout, .calculator-layout { gap: 35px; }.practice-orbit { margin-right: 15px; }.calculator-mark { margin-right: 30px; } }
 @media (max-width: 680px) { .container { width: min(100% - 32px, 1160px); }.header-inner { height: 66px; }.menu-button { display: grid; }.main-nav { position: absolute; top: 65px; left: 0; right: 0; display: none; flex-direction: column; align-items: start; gap: 0; border-bottom: 1px solid var(--line); padding: 5px 16px 15px; background: var(--paper); box-shadow: 0 10px 20px rgba(23,42,59,.05); }.main-nav.nav-open { display: flex; }.nav-link { width: 100%; padding: 12px 0; }.header-progress { display: none; }.hero-section { padding: 60px 0 35px; }.hero-copy h1 { font-size: clamp(48px, 15vw, 68px); }.hero-lede { font-size: 15px; }.hero-visual { min-height: 300px; }.graph-paper { inset: 15px 5px 6px 25px; }.formula-note { font-size: 12px; }.note-one { top: 34px; }.note-two { bottom: 20px; }.hero-sticker { right: 14px; }.quick-section { padding: 50px 0 60px; }.card-heading h2 { font-size: 27px; }.completion-ring { width: 87px; height: 87px; }.dashboard-grid { gap: 12px; }.progress-card { padding: 22px; }.continue-card { padding: 22px; }.section-header { align-items: start; flex-direction: column; }.section-header h2 { font-size: 36px; }.topics-toolbar { flex-direction: column; }.search-box { width: 100%; }.filter-pills { justify-content: start; }.topic-grid { grid-template-columns: 1fr; }.topic-card { min-height: 240px; }.study-note { align-items: start; }.study-note .round-arrow { align-self: center; }.footer-inner { flex-wrap: wrap; }.footer-note { margin-left: 0; width: 100%; }.breadcrumb { padding-top: 22px; padding-bottom: 25px; overflow: auto; white-space: nowrap; }.topic-intro { align-items: start; flex-direction: column; gap: 25px; padding-bottom: 35px; }.topic-intro h1 { font-size: 49px; }.topic-symbol { width: 86px; height: 86px; border-radius: 24px; }.topic-symbol svg { width: 28px; }.topic-layout { padding-top: 30px; gap: 24px; }.lesson-tabs { gap: 14px; overflow-x: auto; white-space: nowrap; }.lesson-section { grid-template-columns: 25px 1fr; gap: 11px; padding: 35px 0; }.lesson-section h2 { font-size: 27px; }.formula-block { align-items: start; flex-direction: column; gap: 8px; }.example-panel { padding: 18px; }.example-panel h2 { font-size: 22px; }.choice-grid { grid-template-columns: 1fr; }.topic-nav-link strong { max-width: 120px; font-size: 12px; }.aside-sticky { display: block; }.aside-tip { margin-top: 13px; }.practice-hero-inner, .calculator-hero-inner { min-height: 400px; align-items: start; flex-direction: column; justify-content: center; gap: 24px; }.practice-hero h1, .calculator-hero h1 { font-size: 49px; }.practice-orbit, .calculator-mark { position: absolute; right: -53px; width: 170px; height: 170px; margin: 0; opacity: .65; }.practice-hero-inner, .calculator-hero-inner { position: relative; }.practice-layout, .calculator-layout { display: flex; flex-direction: column; padding-top: 35px; }.practice-filters { gap: 14px; }.practice-main .exercise-card { padding: 22px; }.practice-main .exercise-card h3 { font-size: 24px; }.calculator-card { padding: 20px; }.calculator-aside { gap: 13px; }.not-found { padding: 90px 0; } }
