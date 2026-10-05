@@ -22,7 +22,7 @@ import {
   Zap,
 } from "lucide-react";
 import { useEffect, useMemo, useState, type CSSProperties, type ReactNode } from "react";
-import { Link, Route, Switch, useLocation, useRoute } from "wouter";
+import { Link, Route, Router as WouterRouter, Switch, useLocation, useRoute } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { topicBySlug, topics, type Difficulty, type Exercise, type Topic } from "./data/topics";
@@ -170,7 +170,8 @@ function Router(progress: ReturnType<typeof useStudyProgress>) {
 
 function App() {
   const progress = useStudyProgress();
-  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster /><Router {...progress} /></TooltipProvider></ThemeProvider></ErrorBoundary>;
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+  return <ErrorBoundary><ThemeProvider defaultTheme="light"><TooltipProvider><Toaster /><WouterRouter base={basePath}><Router {...progress} /></WouterRouter></TooltipProvider></ThemeProvider></ErrorBoundary>;
 }
 
 export default App;
