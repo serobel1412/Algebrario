@@ -1,3 +1,5 @@
+import { curriculumDetails, type VisualMode } from "./curriculum";
+
 export type Difficulty = "Básico" | "Intermedio" | "Reto";
 
 export interface Exercise {
@@ -9,6 +11,8 @@ export interface Exercise {
   answer: string;
   hint: string;
   explanation: string;
+  socraticHints?: [string, string, string];
+  skill?: string;
 }
 
 export interface Topic {
@@ -30,7 +34,18 @@ export interface Topic {
   example: { question: string; steps: string[]; result: string };
   error: string;
   exercise: Exercise;
+  concept: string;
+  properties: string[];
+  realWorld: string;
+  formalMethod: string;
+  inverseOperations: string;
+  factorizationNote: string;
+  visualMode: VisualMode;
+  visualTitle: string;
+  visualPrompt: string;
 }
+
+type BaseTopic = Omit<Topic, "concept" | "properties" | "realWorld" | "formalMethod" | "inverseOperations" | "factorizationNote" | "visualMode" | "visualTitle" | "visualPrompt">;
 
 const make = (
   number: number,
@@ -52,9 +67,9 @@ const make = (
   error: string,
   exercise: Exercise,
   lessons = 4,
-): Topic => ({ id: slug, number, slug, title, label, description, goal, level, duration, lessons, accent, icon, formulaLabel, formula, explanation, example: { question, steps, result }, error, exercise });
+): BaseTopic => ({ id: slug, number, slug, title, label, description, goal, level, duration, lessons, accent, icon, formulaLabel, formula, explanation, example: { question, steps, result }, error, exercise });
 
-export const topics: Topic[] = [
+const baseTopics: BaseTopic[] = [
   make(1, "lenguaje-algebraico", "Lenguaje algebraico", "Expresiones", "Traduce situaciones a símbolos, reconoce términos y simplifica expresiones con sentido.", "Pasar de palabras a expresiones que puedas operar.", "Inicio", "18 min", "coral", "braces", "Término algebraico", "coeficiente × parte literal", "Una expresión combina números, letras y operaciones. El coeficiente acompaña a la variable; la parte literal indica las letras y sus exponentes.", "Traduce: el triple de un número disminuido en 5.", ["Llama x al número desconocido.", "El triple de x es 3x.", "Disminuido en 5 significa restar 5."], "3x − 5", "Confundir ‘disminuido en 5’ con dividir entre 5.", { id: "exp-1", difficulty: "Básico", prompt: "¿Qué expresión representa ‘la mitad de un número más 7’?", type: "choice", options: ["2x + 7", "x/2 + 7", "x + 14", "7x/2"], answer: "x/2 + 7", hint: "La mitad se escribe como dividir entre 2.", explanation: "Si el número es x, su mitad es x/2 y luego se suman 7." }),
   make(2, "potencias", "Potencias y exponentes", "Potencias", "Usa las propiedades de los exponentes para transformar productos y cocientes.", "Simplificar potencias sin perder las reglas de los exponentes.", "Inicio", "20 min", "ochre", "power", "Producto de potencias", "aᵐ · aⁿ = aᵐ⁺ⁿ", "Con la misma base, al multiplicar se suman exponentes; al dividir se restan.", "Simplifica x³ · x⁵ / x².", ["Suma al multiplicar: 3 + 5 = 8.", "Resta al dividir: 8 − 2 = 6.", "Conserva la base x."], "x⁶", "Sumar las bases en vez de los exponentes.", { id: "pot-1", difficulty: "Básico", prompt: "Simplifica: a⁴ · a³.", type: "choice", options: ["a⁷", "a¹²", "2a⁷", "a"], answer: "a⁷", hint: "Con la misma base, suma los exponentes.", explanation: "a⁴ · a³ = a⁴⁺³ = a⁷." }),
   make(3, "radicales", "Radicales", "Raíces", "Interpreta raíces, extrae factores y conecta radicales con potencias fraccionarias.", "Simplificar radicales y operar con ellos con criterio.", "Inicio", "22 min", "sage", "radical", "Producto de radicales", "√a · √b = √(ab)", "Una raíz cuadrada pregunta qué número multiplicado por sí mismo produce el radicando.", "Simplifica √72.", ["Separa 72 como 36 · 2.", "Extrae √36 = 6.", "Conserva el factor sin pareja."], "6√2", "Separar una suma dentro de una raíz: √(a + b) no es √a + √b.", { id: "rad-1", difficulty: "Intermedio", prompt: "¿Cuál es la forma simplificada de √50?", type: "choice", options: ["5√2", "2√5", "25√2", "10√5"], answer: "5√2", hint: "50 = 25 · 2.", explanation: "√50 = √(25 · 2) = 5√2." }),
@@ -71,5 +86,47 @@ export const topics: Topic[] = [
   make(14, "logaritmos", "Logaritmos", "Inversas", "Conecta logaritmos y exponentes para resolver ecuaciones y comparar escalas.", "Leer un logaritmo como una pregunta sobre exponentes.", "Reto", "27 min", "sky", "log", "Definición", "log_b(a) = c  ⇔  bᶜ = a", "El logaritmo responde a qué exponente elevar la base para obtener el número.", "Calcula log₂(32).", ["Pregunta qué potencia de 2 produce 32.", "2⁵ = 32.", "El exponente buscado es 5."], "log₂(32) = 5", "Confundir la base con el resultado.", { id: "log-1", difficulty: "Básico", prompt: "¿Cuánto vale log₃(27)?", type: "choice", options: ["2", "3", "9", "27"], answer: "3", hint: "3 elevado a qué número da 27?", explanation: "3³ = 27, así que log₃(27) = 3." }),
   make(15, "problemas-aplicados", "Problemas aplicados", "Modelación", "Convierte situaciones reales en variables, ecuaciones y decisiones justificadas.", "Elegir un modelo, resolverlo y volver a interpretar el resultado.", "Reto", "32 min", "violet", "target", "Ruta de modelación", "situación → variables → modelo → solución → interpretación", "Resolver no termina al encontrar x: hay que comprobar unidades y sentido.", "Un plan cobra $12.000 de base y $3.000 por clase. ¿Cuánto cuestan 5 clases?", ["Define n como número de clases.", "Modelo: C(n) = 12000 + 3000n.", "Evalúa n = 5: 12000 + 15000 = 27000."], "$27.000", "Resolver pero no responder con unidades ni verificar el contexto.", { id: "app-1", difficulty: "Reto", prompt: "Un taxi cobra 5.000 de inicio y 2.000 por km. ¿Cuánto cuesta 4 km?", type: "choice", options: ["7.000", "8.000", "13.000", "20.000"], answer: "13.000", hint: "Suma la tarifa fija y 4 veces el costo por km.", explanation: "C(4) = 5000 + 2000·4 = 13000." }),
 ];
+
+const defaultSocraticHints: [string, string, string] = [
+  "¿Qué operación o forma principal reconoces antes de empezar?",
+  "¿Qué propiedad uniforme o patrón de factorización podrías aplicar sin cambiar la igualdad?",
+  "¿Cómo comprobarías tu resultado en la expresión o situación original?",
+];
+
+const topicSkills: Record<string, string> = {
+  "lenguaje-algebraico": "Traducción algebraica",
+  potencias: "Propiedades de exponentes",
+  radicales: "Simplificación radical",
+  polinomios: "Operaciones con polinomios",
+  "productos-notables": "Patrones de productos",
+  factorizacion: "Casos de factorización",
+  "fracciones-algebraicas": "Restricciones y factores",
+  "ecuaciones-lineales": "Despeje formal",
+  desigualdades: "Intervalos y signos",
+  sistemas: "Eliminación de variables",
+  "funciones-lineales": "Cambio constante",
+  "funciones-cuadraticas": "Parábola y raíces",
+  sucesiones: "Regla de formación",
+  logaritmos: "Inversa exponencial",
+  "problemas-aplicados": "Modelación matemática",
+};
+
+export const topics: Topic[] = baseTopics.map((topic) => ({
+  ...topic,
+  ...curriculumDetails[topic.slug],
+  exercise: {
+    ...topic.exercise,
+    skill: topicSkills[topic.slug],
+    socraticHints: [
+      topic.slug === "ecuaciones-lineales" || topic.slug === "desigualdades"
+        ? "¿Qué operación rodea a la variable y cuál es la misma operación que debes aplicar a ambos lados?"
+        : defaultSocraticHints[0],
+      topic.slug === "factorizacion" || topic.slug === "fracciones-algebraicas" || topic.slug === "funciones-cuadraticas"
+        ? "¿Qué factor común o patrón puedes extraer antes de continuar?"
+        : defaultSocraticHints[1],
+      defaultSocraticHints[2],
+    ],
+  },
+}));
 
 export const topicBySlug = (slug: string) => topics.find((topic) => topic.slug === slug);

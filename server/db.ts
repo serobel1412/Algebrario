@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, userProgress, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -88,4 +88,41 @@ export async function getUserByOpenId(openId: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+export async function getUserProgress(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(userProgress).where(eq(userProgress.userId, userId));
+}
+
+export async function saveUserProgress(input: {
+  userId: number;
+  topicId: string;
+  mastery: number;
+  streak: number;
+  difficulty: "Básico" | "Intermedio" | "Reto";
+  attempts: number;
+  correct: number;
+}) {
+  const db = await getDb();
+  if (!db) return null;
+  const values = {
+    userId: input.userId,
+    topicId: input.topicId,
+    mastery: Math.max(0, Math.min(100, input.mastery)),
+    streak: Math.max(0, input.streak),
+    difficulty: input.difficulty,
+    attempts: Math.max(0, input.attempts),
+    correct: Math.max(0, input.correct),
+  } as const;
+  await db.insert(userProgress).values(values).onDuplicateKeyUpdate({
+    set: {
+      mastery: values.mastery,
+      streak: values.streak,
+      difficulty: values.difficulty,
+      attempts: values.attempts,
+      correct: values.correct,
+      updatedAt: new Date(),
+    },
+  });
+  return values;
+}
