@@ -24,5 +24,5 @@
 ## Entrega
 - [x] TypeScript, build, tests y diff sin errores.
 - [x] Vista previa administrada responde por el puerto configurado.
-- [ ] Commit de la actualización en `main` del proyecto administrado.
-- [ ] Mismo cambio enviado a `serobel1412/Algebrario` para GitHub Pages.
+- [x] Commit de la actualización en `main` del proyecto administrado.
+- [x] Mismo cambio enviado a `serobel1412/Algebrario` para GitHub Pages.
