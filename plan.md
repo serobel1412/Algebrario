@@ -1,34 +1,36 @@
 # Plan de implementación — Algebrario adaptativo
 
 ## Objetivo
-Convertir Algebrario en un curso interactivo y adaptativo de álgebra para grado décimo, conservando la estética editorial actual y ampliando cada módulo con teoría, contexto, ejemplo paso a paso, laboratorio geométrico y práctica socrática.
+Convertir Algebrario en un curso interactivo y adaptativo de álgebra para grado décimo, conservando la estética de atlas editorial y haciendo que cada módulo conecte teoría, contexto, laboratorio y práctica.
 
 ## Decisiones de producto
 - Mantener exactamente 15 temas en tres niveles: Inicio (1–4), Intermedio (5–11) y Reto (12–15).
-- Reutilizar la identidad visual actual como un **atlas editorial de estudio**: fondos cálidos, tipografía serif para conceptos, acentos por tema y tarjetas con bordes suaves.
-- Sustituir las pestañas rígidas por una página de módulo continua con barra de maestría, navegación por anclas y bloques de aprendizaje.
-- Usar la propiedad uniforme de la igualdad y la factorización como lenguaje transversal en los datos de lección, ejemplos y pistas.
-- Mantener funcionamiento offline/local con `localStorage`; cuando exista sesión y backend, ofrecer mutaciones tRPC para sincronización.
+- Usar la identidad visual actual: fondos cálidos, tipografía serif para conceptos, acentos por tema, tarjetas suaves y controles de alto contraste en modo oscuro.
+- Mantener funcionamiento en GitHub Pages con `localStorage`; en Preview/publicación administrada usar Manus OAuth, tRPC y MySQL administrado para sincronizar cuentas.
+- En GitHub Pages se muestra `Progreso local`, porque Pages no puede ejecutar el servidor tRPC ni OAuth; el modo de cuenta queda disponible en Preview/publicación administrada.
+
+## Banco y motor de ejercicios
+- `shared/data/ejercicios_algebrario_seed.json` conserva el archivo entregado: 150 filas, 15 temas, 10 ejercicios por tema.
+- `scripts/seedExercises.ts` valida cantidades, cuatro opciones, una respuesta correcta y tres pistas antes de insertar de forma idempotente.
+- `ExercisePlayer.tsx` sirve el banco semilla mientras la maestría es menor a 100%. Al llegar a 100% cambia a Práctica infinita.
+- `server/routes/exerciseGenerator.ts` expone el generador parametrizado para Potencias, Factorización, Ecuaciones Lineales, Funciones Cuadráticas y Logaritmos; `shared/exerciseGenerator.ts` permite el fallback local de Pages.
+- KaTeX renderiza los enunciados y las opciones en notación matemática, y cada distractor conserva su retroalimentación.
 
 ## Arquitectura
-- `client/src/data/topics.ts`: catálogo estricto de 15 temas, secciones pedagógicas, ejercicios y pistas socráticas.
-- `client/src/components/ExercisePlayer.tsx`: motor de preguntas, racha consecutiva, niveles adaptativos, tres pistas y feedback.
-- `client/src/components/GeometricAlgebraVisualizer.tsx`: visualizador SVG 2D y laboratorio 3D sin bloquear la experiencia si WebGL no está disponible.
-- `client/src/hooks/useStudyProgress.ts`: maestría por tema, dificultad, racha y persistencia local.
-- `client/src/App.tsx` + `client/src/index.css`: integración de módulo, práctica y dashboard.
-- `drizzle/schema.ts` + `drizzle/relations.ts`: tablas de temas, ejercicios y progreso de usuario con JSON de pistas.
-- `server/routers.ts` + `server/storage.ts`: procedimientos tRPC opcionales para leer catálogo y guardar intentos/progreso autenticado.
+- `client/src/data/topics.ts`: catálogo y contenido pedagógico de los 15 módulos.
+- `client/src/data/seedExercises.ts`: adaptador estático del JSON para Pages.
+- `client/src/components/ExercisePlayer.tsx`: banco, modo infinito, rachas, maestría y tres pistas socráticas.
+- `client/src/components/GeometricAlgebraVisualizer.tsx`: SVG 2D, balanza y laboratorio 3D con `OrbitControls`, arrastre, zoom y pausa/reanudación de giro.
+- `client/src/hooks/useStudyProgress.ts`: maestría local, hidratación remota al iniciar sesión y guardado tRPC tolerante a fallos.
+- `drizzle/schema.ts` + `drizzle/relations.ts`: `topics`, `exercises` y `user_progress`, incluyendo JSON de opciones y pistas.
+- `server/routers.ts` + `server/db.ts`: catálogo semilla, generador infinito y progreso autenticado.
 
-## Contenido y pedagogía
-Cada tema tendrá cuatro bloques visibles: concepto y propiedades, situación real, ejemplo resuelto y laboratorio geométrico; la práctica adaptativa aparece integrada al final y también en `/practica`. Todas las explicaciones de ecuaciones usarán “la misma operación a ambos lados” y la metáfora del desembalaje. Las pistas serán preguntas, nunca soluciones directas.
+## Persistencia y cuenta
+- La capacidad `database` quedó habilitada en el proyecto administrado.
+- Se aplicaron migraciones y se cargaron 15 temas + 150 ejercicios; el seed es repetible y no duplica IDs.
+- El encabezado usa Manus OAuth: iniciar sesión hidrata el progreso remoto y las respuestas actualizan `user_progress` por tema.
 
-## Laboratorio geométrico
-- 2D: áreas de bloques para términos `x²`, `xy`, `x` y `1`, con modo de multiplicación/factorización.
-- 3D: cubo desmontable conceptual para `(a + b)³`, con controles `a` y `b`, renderizado progresivo y fallback textual accesible.
-- Balanza de igualdad: representación 2D para ecuaciones y desigualdades.
-
-## Persistencia
-El frontend seguirá siendo útil sin base de datos. Si el usuario está autenticado y el servidor dispone de conexión, se enviarán intentos y maestría mediante tRPC; las mutaciones fallidas no interrumpirán la práctica local.
-
-## Entrega
-Validar TypeScript, build, rutas y health check; hacer commit en `main` del proyecto administrado y reflejar el mismo commit en `serobel1412/Algebrario` para que GitHub Actions publique GitHub Pages.
+## Validación y entrega
+- Ejecutar `pnpm run check`, `pnpm run build`, `pnpm test -- --run` y `git diff --check`.
+- Verificar `/api/health`, `exercises.byTopic` con 10 filas y `exercises.infinite` con un ID parametrizado.
+- Hacer commit en `main` del proyecto administrado y reflejar el mismo cambio en `serobel1412/Algebrario` para GitHub Pages.

@@ -219,3 +219,63 @@ html.dark .difficulty-badge { background: #2b3d45; color: var(--ink-soft); }
 .geometry-controls strong { color: var(--ink); }
 @media (max-width: 900px) { .adaptive-topic-layout { grid-template-columns: 1fr; gap: 25px; }.property-grid { grid-template-columns: 1fr; }.topic-aside { order: -1; }.mastery-strip { grid-template-columns: 1fr; gap: 9px; }.mastery-strip p { text-align: left; }.context-rule { grid-template-columns: 1fr; gap: 7px; } }
 @media (max-width: 680px) { .mastery-strip > div:first-child { justify-content: space-between; }.geometry-controls { flex-direction: column; gap: 8px; }.geometry-controls label { grid-template-columns: 35px 1fr 25px; }.geometry-lab-heading { padding-inline: 16px; }.geometry-stage { margin-inline: 12px; }.geometry-controls { padding-inline: 16px; } }
+
+/* Interactive study layer: higher contrast and explicit affordances for the adaptive bank. */
+html.dark {
+  --mustard: #f0ca61;
+  --sage: #a9d4b1;
+  --sky: #9ed8ec;
+  --violet: #c7b8ea;
+}
+
+.account-button, .user-chip { display: inline-flex; align-items: center; gap: 7px; min-height: 32px; border: 1px solid var(--line); border-radius: 999px; padding: 0 11px; background: var(--card); color: var(--ink); cursor: pointer; font-size: 10px; font-weight: 800; transition: border-color .2s ease, transform .2s ease, background .2s ease; }
+.account-button:hover, .user-chip:hover { border-color: var(--coral); transform: translateY(-1px); }
+.account-button { border-color: rgba(232,109,84,.45); color: var(--coral-deep); }
+.user-chip { background: var(--muted); }
+.account-button:disabled { cursor: wait; opacity: .65; }
+html.dark .account-button { background: #2b3d45; color: var(--coral-deep); border-color: #6d7161; }
+html.dark .user-chip { background: #243b46; color: var(--ink); }
+
+.math-text { line-height: 1.7; }
+.math-fragment { display: inline-block; margin-inline: .12em; }
+.choice .math-fragment { margin-inline: 0; }
+.katex { font-size: 1.02em; }
+.adaptive-exercise h3 .katex { font-size: 1.12em; }
+
+.adaptive-exercise { border-top: 3px solid var(--coral); }
+.adaptive-exercise.infinite-mode { border-top-color: var(--violet); }
+.adaptive-exercise .choice { text-align: left; }
+.socratic-panel { margin-top: 16px; border-top: 1px dashed var(--line); padding-top: 11px; }
+.socratic-toggle { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; color: var(--coral-deep); cursor: pointer; font-size: 10px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
+.socratic-hints { display: grid; gap: 8px; margin-top: 10px; border-radius: 9px; padding: 11px 13px; background: color-mix(in srgb, var(--mustard) 13%, var(--card)); color: var(--ink-soft); }
+.socratic-hints p { margin: 0; font-size: 11px; line-height: 1.55; }
+.socratic-hints strong { color: var(--ink); }
+.feedback .math-text { display: inline; }
+
+.geometry-motion-button { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 999px; padding: 7px 10px; background: var(--muted); color: var(--ink); cursor: pointer; font-size: 10px; font-weight: 800; white-space: nowrap; }
+.geometry-motion-button:hover { border-color: var(--coral); color: var(--coral-deep); }
+.geometry-help { display: flex; align-items: center; gap: 6px; margin: 0; padding: 0 21px 16px; color: var(--muted-foreground); font-size: 10px; }
+.geometry-canvas { overflow: hidden; cursor: grab; }
+.geometry-canvas:active { cursor: grabbing; }
+html.dark .geometry-stage { background: #13232c; }
+html.dark .geometry-motion-button { background: #243b46; }
+html.dark .socratic-hints { background: #3a3828; }
+html.dark .feedback.correct { background: #203b31; color: #b8e1bf; }
+html.dark .feedback.wrong { background: #452d2c; color: #ffc0ae; }
+html.dark .choice { border-color: #49616b; background: #203640; color: var(--ink); }
+html.dark .choice:hover, html.dark .choice.selected { background: #4b3431; border-color: var(--coral); }
+html.dark .answer-input { border-color: #49616b; color: var(--ink); }
+html.dark .button-dark { background: #eef3f2; color: #172a3b; }
+
+@media (max-width: 900px) {
+  .account-button, .user-chip { padding-inline: 8px; }
+  .account-button { font-size: 0; }
+  .account-button svg { width: 17px; height: 17px; }
+}
+@media (max-width: 680px) {
+  .geometry-lab-heading { align-items: stretch; flex-direction: column; }
+  .geometry-motion-button { align-self: flex-start; }
+  .geometry-help { padding-inline: 16px; }
+}
+
+.local-progress-chip { display: inline-flex; align-items: center; gap: 6px; color: var(--muted-foreground); font-size: 10px; font-weight: 800; }

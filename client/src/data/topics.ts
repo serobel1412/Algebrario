@@ -2,16 +2,19 @@ import { curriculumDetails, type VisualMode } from "./curriculum";
 
 export type Difficulty = "Básico" | "Intermedio" | "Reto";
 
+export type ExerciseOption = string | { text: string; correct?: boolean; feedback?: string };
+export type SocraticHint = string | { level: number; focus: string; question: string };
+
 export interface Exercise {
   id: string;
   difficulty: Difficulty;
   prompt: string;
   type: "choice" | "text";
-  options?: string[];
+  options?: ExerciseOption[];
   answer: string;
   hint: string;
   explanation: string;
-  socraticHints?: [string, string, string];
+  socraticHints?: SocraticHint[];
   skill?: string;
 }
 

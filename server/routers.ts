@@ -1,8 +1,9 @@
 import { COOKIE_NAME } from "@shared/const";
+import { createInfiniteExercise } from "./routes/exerciseGenerator";
 import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { getUserProgress, saveUserProgress } from "./db";
+import { getExercisesForTopic, getUserProgress, saveUserProgress } from "./db";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 
 export const appRouter = router({
@@ -17,6 +18,11 @@ export const appRouter = router({
         success: true,
       } as const;
     }),
+  }),
+
+  exercises: router({
+    byTopic: publicProcedure.input(z.object({ topicId: z.string().min(1).max(80) })).query(({ input }) => getExercisesForTopic(input.topicId)),
+    infinite: publicProcedure.input(z.object({ topicId: z.string().min(1).max(80), round: z.number().int().min(0), difficulty: z.enum(["Básico", "Intermedio", "Reto"]) })).query(({ input }) => createInfiniteExercise(input.topicId, input.round, input.difficulty)),
   }),
 
   progress: router({

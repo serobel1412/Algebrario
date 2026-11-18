@@ -25,6 +25,9 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
+export type ExerciseOption = { text: string; correct: boolean; feedback: string };
+export type SocraticHint = { level: number; focus: string; question: string };
+
 export const topics = mysqlTable("topics", {
   id: varchar("id", { length: 80 }).primaryKey(),
   number: int("number").notNull(),
@@ -42,9 +45,9 @@ export const exercises = mysqlTable("exercises", {
   difficulty: mysqlEnum("difficulty", ["Básico", "Intermedio", "Reto"]).notNull(),
   prompt: text("prompt").notNull(),
   type: mysqlEnum("type", ["choice", "text"]).notNull(),
-  options: json("options").$type<string[] | null>(),
+  options: json("options").$type<ExerciseOption[] | null>(),
   answer: text("answer").notNull(),
-  socraticHints: json("socratic_hints").$type<[string, string, string]>().notNull(),
+  socraticHints: json("socratic_hints").$type<SocraticHint[]>().notNull(),
   explanation: text("explanation").notNull(),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 }, table => ({ topicIdx: index("exercises_topic_idx").on(table.topicId) }));

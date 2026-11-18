@@ -1,11 +1,10 @@
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useState } from "react";
-import type { Group } from "three";
+import { OrbitControls } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { Pause, Play, Rotate3D } from "lucide-react";
+import { useState } from "react";
 import type { VisualMode } from "@/data/curriculum";
 
 function VolumePieces({ a, b }: { a: number; b: number }) {
-  const group = useRef<Group>(null);
-  useFrame((_, delta) => { if (group.current) group.current.rotation.y += delta * 0.22; });
   const pieces: { position: [number, number, number]; scale: [number, number, number]; color: string }[] = [
     { position: [-0.9, 0.9, 0.9], scale: [a, a, a], color: "#e86d54" },
     { position: [0.75, 0.9, 0.9], scale: [b, a, a], color: "#d8ad42" },
@@ -16,11 +15,11 @@ function VolumePieces({ a, b }: { a: number; b: number }) {
     { position: [-0.9, -0.65, -0.65], scale: [a, b, b], color: "#d8ad42" },
     { position: [0.75, -0.65, -0.65], scale: [b, b, b], color: "#8baa92" },
   ];
-  return <group ref={group}>{pieces.map((piece, index) => <mesh key={index} position={piece.position as [number, number, number]} scale={piece.scale}><boxGeometry args={[0.78, 0.78, 0.78]} /><meshStandardMaterial color={piece.color} transparent opacity={0.9} /></mesh>)}</group>;
+  return <group>{pieces.map((piece, index) => <mesh key={index} position={piece.position} scale={piece.scale}><boxGeometry args={[0.78, 0.78, 0.78]} /><meshStandardMaterial color={piece.color} transparent opacity={0.9} /></mesh>)}</group>;
 }
 
-function VolumeScene({ a, b }: { a: number; b: number }) {
-  return <Canvas camera={{ position: [3.6, 3.2, 4.6], fov: 42 }} dpr={[1, 1.5]}><ambientLight intensity={1.2} /><directionalLight position={[4, 5, 4]} intensity={2} /><VolumePieces a={a} b={b} /></Canvas>;
+function VolumeScene({ a, b, rotating }: { a: number; b: number; rotating: boolean }) {
+  return <Canvas camera={{ position: [3.6, 3.2, 4.6], fov: 42 }} dpr={[1, 1.5]}><ambientLight intensity={1.2} /><directionalLight position={[4, 5, 4]} intensity={2} /><VolumePieces a={a} b={b} /><OrbitControls enableDamping enableRotate autoRotate={rotating} autoRotateSpeed={1.2} minDistance={3.1} maxDistance={7} /></Canvas>;
 }
 
 function AreaBlocks({ a, b }: { a: number; b: number }) {
@@ -48,11 +47,13 @@ export default function GeometricAlgebraVisualizer({ mode, title, prompt }: Prop
   const [a, setA] = useState(3);
   const [b, setB] = useState(2);
   const [balanceValue, setBalanceValue] = useState(5);
+  const [rotating, setRotating] = useState(true);
   const showVolume = mode === "volume";
   const showBalance = mode === "balance";
   return <section className="geometry-lab" aria-label={`Laboratorio: ${title}`}>
-    <div className="geometry-lab-heading"><div><span className="eyebrow">Laboratorio visual · {showVolume ? "3D" : "2D"}</span><h3>{title}</h3><p>{prompt}</p></div><span className="geometry-badge">explora</span></div>
-    <div className="geometry-stage">{showVolume ? <div className="geometry-canvas"><VolumeScene a={a / 2.6} b={b / 2.6} /></div> : showBalance ? <Balance value={balanceValue} /> : <AreaBlocks a={a} b={b} />}</div>
+    <div className="geometry-lab-heading"><div><span className="eyebrow">Laboratorio visual · {showVolume ? "3D" : "2D"}</span><h3>{title}</h3><p>{prompt}</p></div>{showVolume ? <button className="geometry-motion-button" onClick={() => setRotating(value => !value)} aria-pressed={rotating}><Rotate3D size={15} /> {rotating ? <><Pause size={13} /> Pausar giro</> : <><Play size={13} /> Reanudar giro</>}</button> : <span className="geometry-badge">explora</span>}</div>
+    <div className="geometry-stage">{showVolume ? <div className="geometry-canvas"><VolumeScene a={a / 2.6} b={b / 2.6} rotating={rotating} /></div> : showBalance ? <Balance value={balanceValue} /> : <AreaBlocks a={a} b={b} />}</div>
     <div className="geometry-controls">{showBalance ? <label>Valor del lado derecho<input type="range" min="1" max="9" value={balanceValue} onChange={event => setBalanceValue(Number(event.target.value))} /><strong>{balanceValue}</strong></label> : <><label>a<input type="range" min="1" max="5" value={a} onChange={event => setA(Number(event.target.value))} /><strong>{a}</strong></label><label>b<input type="range" min="1" max="4" value={b} onChange={event => setB(Number(event.target.value))} /><strong>{b}</strong></label></>}</div>
+    {showVolume && <p className="geometry-help"><Rotate3D size={14} /> Arrastra con el mouse o el dedo para rotar el modelo. Usa la rueda para acercarte.</p>}
   </section>;
 }

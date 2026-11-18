@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Difficulty } from "@/data/topics";
 import { trpc } from "@/lib/trpc";
 
@@ -24,22 +24,38 @@ function readProgress(): StoredProgress {
   }
 }
 
-export function useStudyProgress() {
+export function useStudyProgress(isAuthenticated = false) {
   const [progress, setProgress] = useState<StoredProgress>(readProgress);
   const { mutate: saveRemoteProgress } = trpc.progress.save.useMutation();
+  const remoteProgress = trpc.progress.list.useQuery(undefined, { enabled: isAuthenticated, retry: false, staleTime: Infinity });
+  const hydrated = useRef(false);
   useEffect(() => localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)), [progress]);
+  useEffect(() => {
+    if (!isAuthenticated) { hydrated.current = false; return; }
+    if (hydrated.current || !remoteProgress.data) return;
+    hydrated.current = true;
+    setProgress(current => {
+      const topics = { ...current.topics };
+      const completed = new Set(current.completed);
+      remoteProgress.data.forEach(row => {
+        topics[row.topicId] = { mastery: row.mastery, streak: row.streak, difficulty: row.difficulty };
+        if (row.mastery >= 100) completed.add(row.topicId);
+      });
+      return { ...current, topics, completed: [...completed] };
+    });
+  }, [isAuthenticated, remoteProgress.data]);
   useEffect(() => {
     const slug = progress.lastTopic;
     if (!slug || typeof window === "undefined") return;
     try {
-      if (!localStorage.getItem("manus-runtime-user-info")) return;
+      if (!isAuthenticated || !localStorage.getItem("manus-runtime-user-info")) return;
       const detail = progress.topics[slug];
       if (!detail) return;
       saveRemoteProgress({ topicId: slug, ...detail, attempts: progress.answered, correct: progress.correct });
     } catch {
       // La práctica local sigue funcionando aunque el backend no esté disponible.
     }
-  }, [progress, saveRemoteProgress]);
+  }, [isAuthenticated, progress, saveRemoteProgress]);
 
   const toggleCompleted = useCallback((slug: string) => {
     setProgress((current) => {

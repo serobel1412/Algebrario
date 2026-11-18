@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, userProgress, users } from "../drizzle/schema";
+import { exercises, InsertUser, userProgress, users } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -92,6 +92,12 @@ export async function getUserProgress(userId: number) {
   const db = await getDb();
   if (!db) return [];
   return db.select().from(userProgress).where(eq(userProgress.userId, userId));
+}
+
+export async function getExercisesForTopic(topicId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return db.select().from(exercises).where(eq(exercises.topicId, topicId));
 }
 
 export async function saveUserProgress(input: {
