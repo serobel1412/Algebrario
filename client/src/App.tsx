@@ -102,7 +102,7 @@ function AuthorSection() {
           <div>
             <span className="author-label">Autor del proyecto</span>
             <h3>Sergio Andrés Rodríguez Beltrán</h3>
-            <p>Creador de Algebrario</p>
+            <p>Estudiante de Licenciatura en Matemáticas de la Universidad del Magdalena</p>
           </div>
         </div>
         <div className="author-purpose">
