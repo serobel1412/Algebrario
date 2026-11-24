@@ -390,3 +390,12 @@ html.dark .site-header, html.dark .formula-note, html.dark .button-ghost, html.d
 html.dark .graph-paper { background-color: var(--bg-card); background-image: linear-gradient(color-mix(in srgb, var(--ink-primary) 9%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink-primary) 9%, transparent) 1px, transparent 1px); }
 html.dark .choice:hover, html.dark .choice.selected { background: color-mix(in srgb, var(--accent-primary) 22%, var(--bg-card)); }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline-color: color-mix(in srgb, var(--accent-primary) 48%, transparent); }
+
+/* Dark-mode surface correction for the brand mark and next-step card. */
+html.dark .brand-mark, [data-theme="dark"] .brand-mark { background: #0D2321; color: #FFFBEB; }
+html.dark .brand-mark i, [data-theme="dark"] .brand-mark i { background: #FB923C; }
+html.dark .continue-card, [data-theme="dark"] .continue-card { background: #0D2321; color: #FFFBEB; border-color: #1C3D39; }
+html.dark .continue-card .eyebrow, [data-theme="dark"] .continue-card .eyebrow { color: #9BB8B4; }
+html.dark .continue-card .continue-icon, [data-theme="dark"] .continue-card .continue-icon { border-color: #1C3D39; color: #2DD4BF; }
+html.dark .continue-card p, [data-theme="dark"] .continue-card p { color: #9BB8B4; }
+html.dark .continue-card .button, [data-theme="dark"] .continue-card .button { background: #FFFBEB; color: #0F2926; }
