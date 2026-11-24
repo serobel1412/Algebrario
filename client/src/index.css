@@ -420,3 +420,15 @@ html.dark .continue-card .button, [data-theme="dark"] .continue-card .button { b
 .topics-directory .topics-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 @media (max-width: 900px) { .topics-directory .topics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 680px) { .math-keyboard { padding: 10px; } .math-keyboard-grid { gap: 5px; } .math-key { min-height: 36px; font-size: 12px; } .math-key.utility-key { grid-column: span 3; } .math-keyboard-heading { align-items: flex-start; flex-direction: column; gap: 3px; } .page-heading { padding: 52px 0 30px; } .topics-directory .topics-grid { grid-template-columns: 1fr; } }
+
+/* Ajustes de consistencia visual para filtros y encabezados de herramientas. */
+.pill { border-color: var(--border-soft); background: var(--bg-card); color: var(--ink-secondary); }
+.pill:hover { border-color: var(--accent-primary); background: color-mix(in srgb, var(--accent-primary) 10%, var(--bg-card)); color: var(--ink-primary); }
+.pill.active { border-color: var(--accent-primary); background: var(--accent-primary); color: var(--bg-page); }
+.pill-status.active { border-color: var(--accent-warm); background: var(--accent-warm); color: var(--bg-page); }
+.practice-hero, .calculator-hero { background: var(--bg-subtle); color: var(--ink-primary); border-bottom: 1px solid var(--border-soft); }
+.practice-hero .eyebrow, .calculator-hero .eyebrow { color: var(--accent-warm-hover); }
+.practice-hero h1, .calculator-hero h1 { color: var(--ink-primary); }
+.practice-hero p, .calculator-hero p { color: var(--ink-secondary); }
+.practice-orbit, .calculator-mark { border-color: color-mix(in srgb, var(--ink-primary) 22%, transparent); color: var(--accent-primary); }
+.orbit-ring { border-color: color-mix(in srgb, var(--ink-primary) 20%, transparent); }
