@@ -432,3 +432,15 @@ html.dark .continue-card .button, [data-theme="dark"] .continue-card .button { b
 .practice-hero p, .calculator-hero p { color: var(--ink-secondary); }
 .practice-orbit, .calculator-mark { border-color: color-mix(in srgb, var(--ink-primary) 22%, transparent); color: var(--accent-primary); }
 .orbit-ring { border-color: color-mix(in srgb, var(--ink-primary) 20%, transparent); }
+
+/* Teclado compacto estilo calculadora científica. */
+.math-keyboard-layout { display: grid; grid-template-columns: minmax(0, .95fr) minmax(0, 1.25fr); gap: 8px; }
+.math-keyboard-scientific, .math-keyboard-numeric { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 6px; }
+.math-keyboard-numeric { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.math-keyboard-scientific .math-key, .math-keyboard-numeric .math-key { min-height: 36px; border-radius: 7px; }
+.math-key-muted { color: var(--ink-primary); background: color-mix(in srgb, var(--bg-card) 78%, var(--bg-subtle)); }
+.math-keyboard-numeric .operator-key { color: var(--ink-primary); background: color-mix(in srgb, var(--accent-primary) 7%, var(--bg-card)); }
+.math-keyboard-numeric .backspace-key { color: var(--ink-primary); background: color-mix(in srgb, var(--accent-warm) 14%, var(--bg-card)); }
+.math-keyboard-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
+.math-keyboard-actions .utility-key { min-height: 34px; grid-column: auto; border-radius: 7px; }
+@media (max-width: 680px) { .math-keyboard-layout { gap: 5px; } .math-keyboard-scientific, .math-keyboard-numeric { gap: 4px; } .math-keyboard-scientific .math-key, .math-keyboard-numeric .math-key { min-height: 34px; font-size: 12px; } }
