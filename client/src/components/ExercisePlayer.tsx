@@ -65,7 +65,8 @@ export default function ExercisePlayer({ exercise, topicSlug, difficulty = exerc
   }, [bank, difficulty, exercise, infiniteMode, infiniteQuery.data, round, topicSlug]);
   const hints: Hint[] = (current.socraticHints ?? fallbackHints).map((hint, index) => typeof hint === "string" ? { level: index + 1, focus: fallbackHints[index]?.focus ?? "Razonamiento", question: hint } : hint);
   const selectedOption = current.options?.map(optionData).find(option => option.text === selected);
-  const challengeLabel = infiniteMode ? <><InfinityIcon size={14} /> Práctica infinita</> : <><Sparkles size={14} /> Banco semilla · {round % bank.length + 1}/10</>;
+  const questionNumber = infiniteMode ? round + 1 : (round % bank.length) + 1;
+  const challengeLabel = infiniteMode ? <><InfinityIcon size={14} /> Práctica infinita</> : <><Sparkles size={14} /> Banco semilla</>;
 
   const check = () => {
     if (!selected.trim() || feedback) return;
@@ -81,8 +82,17 @@ export default function ExercisePlayer({ exercise, topicSlug, difficulty = exerc
     setVisibleHints(0);
   };
 
+  const goToSeedQuestion = (index: number) => {
+    if (infiniteMode) return;
+    setRound(index);
+    setSelected("");
+    setFeedback(null);
+    setVisibleHints(0);
+  };
+
   return <div className={`exercise-card adaptive-exercise ${infiniteMode ? "infinite-mode" : ""} ${compact ? "exercise-compact" : ""} ${feedback ?? ""}`}>
-    <div className="exercise-header"><div><span className="eyebrow">{challengeLabel}</span><span className="difficulty-badge">{difficulty}</span></div><span className="exercise-index">Reto {round + 1}</span></div>
+    <div className="exercise-header"><div><span className="eyebrow">{challengeLabel}</span><span className="difficulty-badge">{difficulty}</span></div><span className="exercise-index">{infiniteMode ? `Reto ${questionNumber}` : `Pregunta ${questionNumber} de ${bank.length}`}</span></div>
+    {!infiniteMode && <div className="question-navigator" aria-label="Navegar por las preguntas semilla">{bank.map((item, index) => <button key={item.id} className={index === questionNumber - 1 ? "question-dot active" : "question-dot"} onClick={() => goToSeedQuestion(index)} aria-label={`Ir a la pregunta ${index + 1}`} aria-current={index === questionNumber - 1 ? "step" : undefined}>{index + 1}</button>)}</div>}
     <h3><MathText>{current.prompt}</MathText></h3>
     {current.type === "choice" ? <div className="choice-grid">{current.options?.map(option => { const item = optionData(option); return <button key={item.text} className={selected === item.text ? "choice selected" : "choice"} onClick={() => { setSelected(item.text); setFeedback(null); }}><MathText>{item.text}</MathText></button>; })}</div> : <input className="answer-input" value={selected} onChange={event => { setSelected(event.target.value); setFeedback(null); }} placeholder="Escribe tu respuesta" aria-label="Tu respuesta" />}
     <div className="socratic-panel"><button className="socratic-toggle" onClick={() => setVisibleHints(value => value === hints.length ? 0 : value + 1)} aria-expanded={visibleHints > 0}><Lightbulb size={15} /> Pista Socrática <ChevronDown size={15} /></button>{visibleHints > 0 && <div className="socratic-hints">{hints.slice(0, visibleHints).map(hint => <p key={`${hint.level}-${hint.question}`}><strong>Nivel {hint.level} · {hint.focus}.</strong> <MathText>{hint.question}</MathText></p>)}</div>}</div>

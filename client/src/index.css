@@ -245,6 +245,12 @@ html.dark .user-chip { background: #243b46; color: var(--ink); }
 .adaptive-exercise { border-top: 3px solid var(--coral); }
 .adaptive-exercise.infinite-mode { border-top-color: var(--violet); }
 .adaptive-exercise .choice { text-align: left; }
+.question-navigator { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 18px; padding-bottom: 14px; border-bottom: 1px dashed var(--line); }
+.question-dot { display: grid; place-items: center; width: 27px; height: 27px; border: 1px solid var(--line); border-radius: 50%; background: var(--card); color: var(--muted-foreground); cursor: pointer; font-size: 10px; font-weight: 900; }
+.question-dot:hover { border-color: var(--coral); color: var(--coral-deep); }
+.question-dot.active { border-color: var(--coral); background: var(--coral); color: #fffaf6; }
+html.dark .question-dot { background: #203640; border-color: #49616b; color: var(--ink-soft); }
+html.dark .question-dot.active { background: var(--coral); border-color: var(--coral); color: #172a3b; }
 .socratic-panel { margin-top: 16px; border-top: 1px dashed var(--line); padding-top: 11px; }
 .socratic-toggle { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; color: var(--coral-deep); cursor: pointer; font-size: 10px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
 .socratic-hints { display: grid; gap: 8px; margin-top: 10px; border-radius: 9px; padding: 11px 13px; background: color-mix(in srgb, var(--mustard) 13%, var(--card)); color: var(--ink-soft); }
