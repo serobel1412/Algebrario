@@ -314,3 +314,19 @@ html.dark .graph-paper { background-color: var(--paper-deep); background-image: 
 html.dark .choice:hover, html.dark .choice.selected { background: color-mix(in srgb, var(--coral) 22%, var(--card)); }
 html.dark .feedback.correct, html.dark .calc-result.success { background: #1e4a48; color: #b8e0c9; }
 html.dark .feedback.wrong, html.dark .calc-result.failure { background: #4a3035; color: #f3b8b4; }
+
+/* Mathematical typography: readable inline algebra with KaTeX previews. */
+.math-text { display: inline; color: inherit; }
+.math-fragment { display: inline-block; vertical-align: middle; max-width: 100%; }
+.math-fragment .katex { font-size: 1.08em; }
+.formula-block .math-fragment .katex, .example-result .math-fragment .katex { font-size: 1.18em; }
+.lesson-section h2 .math-fragment { vertical-align: baseline; }
+.choice .math-fragment, .answer-input + .math-live-preview .math-fragment { vertical-align: middle; }
+.math-input-preview, .math-live-preview { display: flex; align-items: center; gap: 8px; min-height: 34px; margin-top: -3px; border: 1px solid color-mix(in srgb, var(--line) 75%, transparent); border-radius: 7px; padding: 7px 10px; background: color-mix(in srgb, var(--paper-deep) 56%, var(--card)); color: var(--ink); }
+.math-input-preview::before, .math-live-preview > span { color: var(--muted-foreground); font-size: 9px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.math-input-preview .math-text, .math-live-preview .math-text { flex: 1; text-align: center; }
+.math-input-preview .katex, .math-live-preview .katex { font-size: 1.12em; }
+.math-live-preview { justify-content: space-between; margin-top: 8px; }
+.math-live-preview > span { flex: none; }
+.calc-step .math-fragment, .feedback .math-fragment, .socratic-hints .math-fragment { vertical-align: baseline; }
+html.dark .math-input-preview, html.dark .math-live-preview { background: color-mix(in srgb, var(--paper-deep) 72%, var(--card)); border-color: var(--line); }
