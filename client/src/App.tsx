@@ -87,6 +87,32 @@ function Header({ completion }: { completion: number }) {
   </header>;
 }
 
+function AuthorSection() {
+  return <section className="author-section" aria-labelledby="author-section-title">
+    <div className="container author-grid">
+      <div className="author-copy">
+        <span className="eyebrow author-eyebrow"><span className="eyebrow-line" /> Proyecto académico</span>
+        <h2 id="author-section-title">Una herramienta para <em>aprender haciendo.</em></h2>
+        <p>Algebrario nace para acercar el álgebra a estudiantes de décimo mediante explicaciones claras, ejemplos visuales y práctica guiada.</p>
+        <Link href="/temas" className="author-link">Explorar los temas <ArrowRight size={16} /></Link>
+      </div>
+      <div className="author-card">
+        <div className="author-profile">
+          <img src={`${import.meta.env.BASE_URL}sergio-andres-rodriguez-beltran.jpg`} alt="Sergio Andrés Rodríguez Beltrán" />
+          <div>
+            <span className="author-label">Autor del proyecto</span>
+            <h3>Sergio Andrés Rodríguez Beltrán</h3>
+            <p>Creador de Algebrario</p>
+          </div>
+        </div>
+        <div className="author-purpose">
+          <span>Propósito</span>
+          <strong>Convertir símbolos, datos y formas en una conversación matemática comprensible.</strong>
+        </div>
+      </div>
+    </div>
+  </section>;
+}
 function Layout({ children, completion }: { children: ReactNode; completion: number }) {
   const [location] = useLocation();
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [location]);
@@ -108,7 +134,7 @@ function Layout({ children, completion }: { children: ReactNode; completion: num
     const ogDescription = document.querySelector('meta[property="og:description"]');
     if (ogDescription) ogDescription.setAttribute("content", metadata.description);
   }, [location]);
-  return <div className="app-shell"><a className="skip-link" href="#main-content">Saltar al contenido</a><Header completion={completion} /><div id="main-content">{children}</div><footer className="site-footer"><div className="container footer-inner"><div className="brand footer-brand"><BrandMark small /><span>algebrario</span></div><p>Aprender álgebra es encontrar el patrón.</p><span className="footer-note">Grado décimo · Hecho para estudiar mejor</span></div></footer></div>;
+  return <div className="app-shell"><a className="skip-link" href="#main-content">Saltar al contenido</a><Header completion={completion} /><div id="main-content">{children}</div><AuthorSection /><footer className="site-footer"><div className="container footer-inner"><div className="brand footer-brand"><BrandMark small /><span>algebrario</span></div><p>Aprender álgebra es encontrar el patrón.</p><span className="footer-note">Grado décimo · Hecho para estudiar mejor</span></div></footer></div>;
 }
 
 function IconFor({ name, size = 22 }: { name: string; size?: number }) {

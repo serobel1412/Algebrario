@@ -444,3 +444,23 @@ html.dark .continue-card .button, [data-theme="dark"] .continue-card .button { b
 .math-keyboard-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; margin-top: 6px; }
 .math-keyboard-actions .utility-key { min-height: 34px; grid-column: auto; border-radius: 7px; }
 @media (max-width: 680px) { .math-keyboard-layout { gap: 5px; } .math-keyboard-scientific, .math-keyboard-numeric { gap: 4px; } .math-keyboard-scientific .math-key, .math-keyboard-numeric .math-key { min-height: 34px; font-size: 12px; } }
+
+/* Author section inspired by the academic cover reference. */
+.author-section { overflow: hidden; padding: 88px 0 82px; background: #061522; color: #f5faf8; }
+.author-grid { display: grid; grid-template-columns: minmax(0, .86fr) minmax(420px, 1.14fr); align-items: center; gap: clamp(35px, 7vw, 92px); }
+.author-copy { max-width: 510px; }
+.author-eyebrow { color: #43c7e8; }
+.author-copy h2 { margin: 19px 0 17px; font-family: Georgia, serif; font-size: clamp(42px, 5vw, 66px); font-weight: 400; letter-spacing: -.065em; line-height: .96; }
+.author-copy h2 em { color: #16b9e5; }
+.author-copy p { max-width: 500px; margin: 0; color: #c4d2d8; font-size: 15px; line-height: 1.7; }
+.author-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 27px; color: #45c9e9; font-size: 12px; font-weight: 800; }
+.author-link:hover { color: #8be4f5; }
+.author-card { border: 1px solid rgba(104, 193, 219, .42); border-radius: 22px; padding: 27px 28px 24px; background: linear-gradient(115deg, rgba(22, 55, 76, .96), rgba(18, 53, 48, .96)); box-shadow: 0 22px 55px rgba(0, 0, 0, .2); }
+.author-profile { display: flex; align-items: center; gap: 18px; }
+.author-profile img { width: 82px; height: 82px; flex: none; border: 3px solid #e1f8fa; border-radius: 50%; object-fit: cover; object-position: center; background: #1c3949; }
+.author-label, .author-purpose > span { display: block; color: #63cfe7; font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+.author-profile h3 { margin: 7px 0 4px; color: #f5faf8; font-family: Georgia, serif; font-size: clamp(20px, 2.3vw, 28px); font-weight: 400; letter-spacing: -.04em; line-height: 1.05; }
+.author-profile p { margin: 0; color: #b8cbd0; font-size: 12px; }
+.author-purpose { margin-top: 24px; border-top: 1px dashed rgba(207, 237, 237, .23); padding-top: 19px; }
+.author-purpose strong { display: block; margin-top: 8px; color: #ecf8f5; font-size: 14px; line-height: 1.45; }
+@media (max-width: 780px) { .author-section { padding: 67px 0 62px; }.author-grid { grid-template-columns: 1fr; gap: 34px; }.author-copy h2 { font-size: clamp(41px, 12vw, 58px); }.author-card { padding: 22px 20px; }.author-profile { align-items: flex-start; }.author-profile img { width: 70px; height: 70px; } }
