@@ -17,46 +17,66 @@
 }
 
 :root {
-  --ink: #183447;
-  --ink-soft: #587181;
-  --paper: #e9f1f4;
-  --paper-deep: #dce9ee;
-  --card: #f3f8fa;
-  --coral: #3f8197;
-  --coral-deep: #286276;
-  --mustard: #b38b4d;
-  --sage: #5f8e8b;
-  --sky: #5d9bb2;
-  --violet: #817aa8;
-  --line: #c8d9e0;
+  --bg-page: #FFFBEB;
+  --bg-card: #FFFFFF;
+  --bg-subtle: #FEF3C7;
+  --ink-primary: #0F2926;
+  --ink-secondary: #4B6360;
+  --accent-primary: #0F766E;
+  --accent-primary-hover: #0D5E58;
+  --accent-warm: #F97316;
+  --accent-warm-hover: #EA580C;
+  --border-soft: #E5DEC9;
+  --ink: var(--ink-primary);
+  --ink-soft: var(--ink-secondary);
+  --paper: var(--bg-page);
+  --paper-deep: var(--bg-subtle);
+  --card: var(--bg-card);
+  --coral: var(--accent-primary);
+  --coral-deep: var(--accent-primary-hover);
+  --mustard: var(--accent-warm);
+  --sage: #4F938A;
+  --sky: #3E9D99;
+  --violet: #746A99;
+  --line: var(--border-soft);
   --background: var(--paper);
   --foreground: var(--ink);
   --primary: var(--coral);
-  --primary-foreground: #f4fbfc;
-  --muted: #dce8ed;
+  --primary-foreground: #FFFBEB;
+  --muted: var(--bg-subtle);
   --muted-foreground: var(--ink-soft);
   --border: var(--line);
   --ring: var(--coral);
   --radius: 14px;
 }
 
-html.dark {
+html.dark, [data-theme="dark"] {
   color-scheme: dark;
-  --ink: #e4f1f4;
-  --ink-soft: #a9c0c8;
-  --paper: #0d202b;
-  --paper-deep: #12303d;
-  --card: #193b49;
-  --coral: #69b4c2;
-  --coral-deep: #91d0d4;
-  --mustard: #d4b36b;
-  --sage: #86b9a9;
-  --sky: #79bfd1;
-  --violet: #aca4d4;
-  --line: #315462;
+  --bg-page: #071615;
+  --bg-card: #0D2321;
+  --bg-subtle: #13312E;
+  --ink-primary: #FFFBEB;
+  --ink-secondary: #9BB8B4;
+  --accent-primary: #2DD4BF;
+  --accent-primary-hover: #14B8A6;
+  --accent-warm: #FB923C;
+  --accent-warm-hover: #F97316;
+  --border-soft: #1C3D39;
+  --ink: var(--ink-primary);
+  --ink-soft: var(--ink-secondary);
+  --paper: var(--bg-page);
+  --paper-deep: var(--bg-subtle);
+  --card: var(--bg-card);
+  --coral: var(--accent-primary);
+  --coral-deep: var(--accent-primary-hover);
+  --mustard: var(--accent-warm);
+  --sage: #75BFAE;
+  --sky: #67C5C0;
+  --violet: #B5A8D6;
+  --line: var(--border-soft);
   --background: var(--paper);
   --foreground: var(--ink);
-  --muted: #204654;
+  --muted: var(--bg-subtle);
   --muted-foreground: var(--ink-soft);
   --border: var(--line);
 }
@@ -253,8 +273,8 @@ html.dark .user-chip { background: #243b46; color: var(--ink); }
 .question-dot { display: grid; place-items: center; width: 27px; height: 27px; border: 1px solid var(--line); border-radius: 50%; background: var(--card); color: var(--muted-foreground); cursor: pointer; font-size: 10px; font-weight: 900; }
 .question-dot:hover { border-color: var(--coral); color: var(--coral-deep); }
 .question-dot.active { border-color: var(--coral); background: var(--coral); color: #fffaf6; }
-html.dark .question-dot { background: #203640; border-color: #49616b; color: var(--ink-soft); }
-html.dark .question-dot.active { background: var(--coral); border-color: var(--coral); color: #172a3b; }
+html.dark .question-dot { background: var(--bg-card); border-color: var(--border-soft); color: var(--ink-secondary); }
+html.dark .question-dot.active { background: var(--accent-primary); border-color: var(--accent-primary); color: var(--bg-page); }
 .socratic-panel { margin-top: 16px; border-top: 1px dashed var(--line); padding-top: 11px; }
 .socratic-toggle { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; color: var(--coral-deep); cursor: pointer; font-size: 10px; font-weight: 900; letter-spacing: .04em; text-transform: uppercase; }
 .socratic-hints { display: grid; gap: 8px; margin-top: 10px; border-radius: 9px; padding: 11px 13px; background: color-mix(in srgb, var(--mustard) 13%, var(--card)); color: var(--ink-soft); }
@@ -275,7 +295,7 @@ html.dark .feedback.wrong { background: #452d2c; color: #ffc0ae; }
 html.dark .choice { border-color: #49616b; background: #203640; color: var(--ink); }
 html.dark .choice:hover, html.dark .choice.selected { background: #4b3431; border-color: var(--coral); }
 html.dark .answer-input { border-color: #49616b; color: var(--ink); }
-html.dark .button-dark { background: #eef3f2; color: #172a3b; }
+html.dark .button-dark { background: var(--ink-primary); color: var(--bg-page); }
 
 @media (max-width: 900px) {
   .account-button, .user-chip { padding-inline: 8px; }
@@ -330,3 +350,43 @@ html.dark .feedback.wrong, html.dark .calc-result.failure { background: #4a3035;
 .math-live-preview > span { flex: none; }
 .calc-step .math-fragment, .feedback .math-fragment, .socratic-hints .math-fragment { vertical-align: baseline; }
 html.dark .math-input-preview, html.dark .math-live-preview { background: color-mix(in srgb, var(--paper-deep) 72%, var(--card)); border-color: var(--line); }
+
+/* Requested global palette overrides for every route and interactive state. */
+body { background: var(--bg-page); color: var(--ink-primary); }
+.site-header { background: color-mix(in srgb, var(--bg-page) 94%, transparent); border-bottom-color: var(--border-soft); }
+.nav-link, .eyebrow, .hero-meta, .topic-meta, .topic-number, .topic-card-bottom, .footer-inner, .breadcrumb, .lesson-tabs a, .practice-dots, .practice-next, .calc-tabs button, .calc-examples { color: var(--ink-secondary); }
+.button-primary { background: var(--accent-primary); color: var(--bg-page); box-shadow: 0 8px 20px color-mix(in srgb, var(--accent-primary) 22%, transparent); }
+.button-primary:hover { background: var(--accent-primary-hover); }
+.button-dark { background: var(--ink-primary); color: var(--bg-page); }
+.button-ghost { border-color: var(--border-soft); background: color-mix(in srgb, var(--bg-card) 78%, transparent); }
+.text-link { border-bottom-color: color-mix(in srgb, var(--accent-primary) 45%, transparent); }
+h1 em, h2 em, h3 em { color: var(--accent-warm); }
+.hero-section, .context-card, .geometry-stage { background: var(--bg-subtle); border-color: var(--border-soft); }
+.hero-section::after { border-color: color-mix(in srgb, var(--accent-warm) 25%, transparent); }
+.graph-paper { background-color: var(--bg-card); border-color: var(--border-soft); background-image: linear-gradient(color-mix(in srgb, var(--ink-primary) 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink-primary) 8%, transparent) 1px, transparent 1px); box-shadow: 14px 16px 0 color-mix(in srgb, var(--ink-primary) 8%, transparent); }
+.axis { background: color-mix(in srgb, var(--ink-primary) 55%, transparent); }
+.graph-dot { border-color: var(--bg-card); }
+.continue-card, .practice-hero, .calculator-hero { background: var(--ink-primary); color: var(--bg-page); }
+.continue-card .button { background: var(--bg-page); color: var(--ink-primary); }
+.practice-hero .eyebrow, .calculator-hero .eyebrow { color: var(--accent-warm); }
+.practice-hero h1, .calculator-hero h1 { color: var(--bg-page); }
+.practice-hero p, .calculator-hero p { color: var(--ink-secondary); }
+.progress-track { background: color-mix(in srgb, var(--border-soft) 72%, var(--bg-subtle)); }
+.completion-ring { background: conic-gradient(var(--accent-primary) var(--progress), var(--border-soft) 0deg); }
+.topic-coral .topic-icon, .topic-coral .topic-symbol { background: color-mix(in srgb, var(--accent-primary) 17%, var(--bg-card)); color: var(--accent-primary); }
+.topic-ochre .topic-icon, .topic-ochre .topic-symbol { background: color-mix(in srgb, var(--accent-warm) 18%, var(--bg-card)); color: var(--accent-warm-hover); }
+.topic-sage .topic-icon, .topic-sage .topic-symbol { background: color-mix(in srgb, var(--sage) 18%, var(--bg-card)); color: var(--sage); }
+.topic-sky .topic-icon, .topic-sky .topic-symbol { background: color-mix(in srgb, var(--sky) 18%, var(--bg-card)); color: var(--sky); }
+.topic-violet .topic-icon, .topic-violet .topic-symbol { background: color-mix(in srgb, var(--violet) 18%, var(--bg-card)); color: var(--violet); }
+.formula-block, .formula-note, .property-card, .example-panel, .exercise-card, .calculator-card, .mini-progress, .aside-progress, .geometry-lab, .search-box { background: var(--bg-card); border-color: var(--border-soft); }
+.formula-block { background: var(--bg-subtle); }
+.error-note, .aside-tip { background: color-mix(in srgb, var(--accent-warm) 12%, var(--bg-card)); border-color: color-mix(in srgb, var(--accent-warm) 35%, var(--border-soft)); color: var(--accent-warm-hover); }
+.note-icon { background: color-mix(in srgb, var(--accent-warm) 20%, var(--bg-card)); color: var(--accent-warm-hover); }
+.choice:hover, .choice.selected { background: color-mix(in srgb, var(--accent-primary) 15%, var(--bg-card)); border-color: var(--accent-primary); }
+.answer-input, .calc-form input, .practice-filters select { background: var(--bg-card); color: var(--ink-primary); border-color: var(--border-soft); }
+.feedback.correct, .calc-result.success { background: color-mix(in srgb, var(--accent-primary) 18%, var(--bg-card)); color: var(--accent-primary-hover); }
+.feedback.wrong, .calc-result.failure { background: color-mix(in srgb, var(--accent-warm) 16%, var(--bg-card)); color: var(--accent-warm-hover); }
+html.dark .site-header, html.dark .formula-note, html.dark .button-ghost, html.dark .answer-input, html.dark .calc-form input, html.dark .difficulty-badge { background: var(--bg-card); border-color: var(--border-soft); }
+html.dark .graph-paper { background-color: var(--bg-card); background-image: linear-gradient(color-mix(in srgb, var(--ink-primary) 9%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink-primary) 9%, transparent) 1px, transparent 1px); }
+html.dark .choice:hover, html.dark .choice.selected { background: color-mix(in srgb, var(--accent-primary) 22%, var(--bg-card)); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible { outline-color: color-mix(in srgb, var(--accent-primary) 48%, transparent); }

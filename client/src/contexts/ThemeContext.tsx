@@ -33,8 +33,10 @@ export function ThemeProvider({
     const root = document.documentElement;
     if (theme === "dark") {
       root.classList.add("dark");
+      root.dataset.theme = "dark";
     } else {
       root.classList.remove("dark");
+      root.dataset.theme = "light";
     }
 
     if (switchable) {
