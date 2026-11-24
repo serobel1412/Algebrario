@@ -1,10 +1,10 @@
 export type AlgebraResult = { ok: true; value: string; detail?: string; steps?: string[] } | { ok: false; error: string; steps?: string[] };
 
-type Token = number | "x" | "+" | "-" | "*" | "/" | "^" | "(" | ")";
-const allowed = /^[0-9xX+\-*/().\s^×÷−,]+$/;
+type Token = number | "x" | "sqrt" | "log" | "ln" | "+" | "-" | "*" | "/" | "^" | "(" | ")";
+const allowed = /^[0-9xXsqrtlognln+\-*/().\s^×÷−,√]+$/i;
 
 function normalize(input: string) {
-  return input.replace(/×/g, "*").replace(/÷/g, "/").replace(/−/g, "-").replace(/,/g, ".");
+  return input.replace(/×/g, "*").replace(/÷/g, "/").replace(/−/g, "-").replace(/,/g, ".").replace(/√/g, "sqrt");
 }
 
 function tokenize(input: string): Token[] | null {
@@ -18,6 +18,8 @@ function tokenize(input: string): Token[] | null {
       if (!match) return null;
       tokens.push(Number(match[0])); index += match[0].length; continue;
     }
+    const functionMatch = input.slice(index).match(/^(sqrt|log|ln)/i);
+    if (functionMatch) { tokens.push(functionMatch[1].toLowerCase() as "sqrt" | "log" | "ln"); index += functionMatch[1].length; continue; }
     if (char.toLowerCase() === "x") { tokens.push("x"); index += 1; continue; }
     if ("+-*/^()".includes(char)) { tokens.push(char as Exclude<Token, number | "x">); index += 1; continue; }
     return null;
@@ -30,11 +32,19 @@ function parseNumberExpression(input: string, xValue: number): number {
   if (!parsedTokens) throw new Error("tokens");
   const tokens: Token[] = parsedTokens;
   let position = 0;
-  const startsPrimary = (token: Token | undefined) => typeof token === "number" || token === "x" || token === "(";
+  const startsPrimary = (token: Token | undefined) => typeof token === "number" || token === "x" || token === "(" || token === "sqrt" || token === "log" || token === "ln";
   const primary = (): number => {
     const token = tokens[position++];
     if (typeof token === "number") return token;
     if (token === "x") return xValue;
+    if (token === "sqrt" || token === "log" || token === "ln") {
+      if (tokens[position++] !== "(") throw new Error("function");
+      const value = expression();
+      if (tokens[position++] !== ")") throw new Error("function");
+      if (token === "sqrt" && value < 0) throw new Error("sqrt");
+      if ((token === "log" || token === "ln") && value <= 0) throw new Error("log");
+      return token === "sqrt" ? Math.sqrt(value) : Math.log(value);
+    }
     if (token === "(") {
       const value = expression();
       if (tokens[position++] !== ")") throw new Error("parentheses");
@@ -79,7 +89,7 @@ function parseNumberExpression(input: string, xValue: number): number {
 export function evaluateExpression(input: string, xValue: string): AlgebraResult {
   const raw = input.trim();
   if (!raw) return { ok: false, error: "Escribe una expresión para comenzar." };
-  if (!allowed.test(raw)) return { ok: false, error: "Usa solo números, x y las operaciones +, −, ×, ÷, ^ y paréntesis." };
+  if (!allowed.test(raw)) return { ok: false, error: "Usa números, x, potencias, raíces, logaritmos, operaciones y paréntesis." };
   const x = Number(xValue);
   if (!Number.isFinite(x)) return { ok: false, error: "El valor de x debe ser un número." };
   try {

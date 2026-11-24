@@ -17,9 +17,9 @@
 }
 
 :root {
-  --bg-page: #FFFBEB;
-  --bg-card: #FFFFFF;
-  --bg-subtle: #FEF3C7;
+  --bg-page: #E4E8E5;
+  --bg-card: #F0F2EF;
+  --bg-subtle: #D7DEDA;
   --ink-primary: #0F2926;
   --ink-secondary: #4B6360;
   --accent-primary: #0F766E;
@@ -399,3 +399,24 @@ html.dark .continue-card .eyebrow, [data-theme="dark"] .continue-card .eyebrow {
 html.dark .continue-card .continue-icon, [data-theme="dark"] .continue-card .continue-icon { border-color: #1C3D39; color: #2DD4BF; }
 html.dark .continue-card p, [data-theme="dark"] .continue-card p { color: #9BB8B4; }
 html.dark .continue-card .button, [data-theme="dark"] .continue-card .button { background: #FFFBEB; color: #0F2926; }
+
+/* Calculadora: teclado matemático visible y accesible. */
+.math-keyboard { margin-top: 4px; border: 1px solid var(--border-soft); border-radius: 12px; padding: 14px; background: color-mix(in srgb, var(--bg-subtle) 55%, var(--bg-card)); }
+.math-keyboard-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; color: var(--ink-primary); font-size: 12px; font-weight: 800; }
+.math-keyboard-heading small { color: var(--ink-secondary); font-size: 10px; font-weight: 500; }
+.math-keyboard-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; }
+.math-key { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; border: 1px solid var(--border-soft); border-radius: 8px; background: var(--bg-card); color: var(--ink-primary); font-size: 14px; font-weight: 700; cursor: pointer; transition: transform .15s ease, background .15s ease, border-color .15s ease; }
+.math-key:hover:not(:disabled) { transform: translateY(-1px); border-color: var(--accent-primary); background: color-mix(in srgb, var(--accent-primary) 12%, var(--bg-card)); }
+.math-key:disabled { cursor: not-allowed; opacity: .42; }
+.math-key.number-key { font-family: Georgia, serif; }
+.math-key.function-key { color: var(--accent-primary-hover); }
+.math-key.utility-key { grid-column: span 2; color: var(--ink-secondary); font-size: 11px; }
+.math-key.clear-key { color: var(--accent-warm-hover); }
+.topics-page { min-height: 70vh; }
+.page-heading { padding: 72px 0 38px; background: var(--bg-subtle); border-bottom: 1px solid var(--border-soft); }
+.page-heading h1 { margin: 12px 0 10px; font-size: clamp(42px, 6vw, 72px); letter-spacing: -.055em; line-height: .95; }
+.page-heading p { max-width: 560px; margin: 0; color: var(--ink-secondary); font-size: 16px; }
+.topics-directory { padding-top: 42px; padding-bottom: 80px; }
+.topics-directory .topics-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 900px) { .topics-directory .topics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 680px) { .math-keyboard { padding: 10px; } .math-keyboard-grid { gap: 5px; } .math-key { min-height: 36px; font-size: 12px; } .math-key.utility-key { grid-column: span 3; } .math-keyboard-heading { align-items: flex-start; flex-direction: column; gap: 3px; } .page-heading { padding: 52px 0 30px; } .topics-directory .topics-grid { grid-template-columns: 1fr; } }
