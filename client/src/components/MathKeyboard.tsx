@@ -19,7 +19,7 @@ export default function MathKeyboard({ value, onChange, includeEquals = false }:
     <div className="math-keyboard-grid">
       {keys.flat().map((key, index) => <button type="button" className={`math-key ${/[0-9.]/.test(key) ? "number-key" : "operator-key"}`} key={`${key}-${index}`} onClick={() => insert(key)} disabled={key === "=" && !includeEquals}>{key}</button>)}
       <button type="button" className="math-key function-key" onClick={() => insert("sqrt(")}>√ raíz</button>
-      <button type="button" className="math-key function-key" onClick={() => insert("log(")}>log</button>
+      <button type="button" className="math-key function-key" onClick={() => insert("log10(")}>log10</button>
       <button type="button" className="math-key utility-key" onClick={() => onChange(value.slice(0, -1))}><Delete size={17} /> Retroceso</button>
       <button type="button" className="math-key utility-key clear-key" onClick={() => onChange("")}><Eraser size={17} /> Borrar</button>
     </div>
