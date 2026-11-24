@@ -17,23 +17,23 @@
 }
 
 :root {
-  --ink: #172a3b;
-  --ink-soft: #536372;
-  --paper: #fbfaf7;
-  --paper-deep: #f2efe8;
-  --card: #fffefa;
-  --coral: #e86d54;
-  --coral-deep: #b84d39;
-  --mustard: #d8ad42;
-  --sage: #8baa92;
-  --sky: #82afc2;
-  --violet: #a194bd;
-  --line: #e4e0d8;
+  --ink: #183447;
+  --ink-soft: #587181;
+  --paper: #e9f1f4;
+  --paper-deep: #dce9ee;
+  --card: #f3f8fa;
+  --coral: #3f8197;
+  --coral-deep: #286276;
+  --mustard: #b38b4d;
+  --sage: #5f8e8b;
+  --sky: #5d9bb2;
+  --violet: #817aa8;
+  --line: #c8d9e0;
   --background: var(--paper);
   --foreground: var(--ink);
   --primary: var(--coral);
-  --primary-foreground: #fffaf6;
-  --muted: #f1eee7;
+  --primary-foreground: #f4fbfc;
+  --muted: #dce8ed;
   --muted-foreground: var(--ink-soft);
   --border: var(--line);
   --ring: var(--coral);
@@ -42,17 +42,21 @@
 
 html.dark {
   color-scheme: dark;
-  --ink: #eef3f2;
-  --ink-soft: #b5c2c4;
-  --paper: #101a23;
-  --paper-deep: #162833;
-  --card: #1b2d37;
-  --coral: #f08a70;
-  --coral-deep: #ffad94;
-  --line: #354b55;
+  --ink: #e4f1f4;
+  --ink-soft: #a9c0c8;
+  --paper: #0d202b;
+  --paper-deep: #12303d;
+  --card: #193b49;
+  --coral: #69b4c2;
+  --coral-deep: #91d0d4;
+  --mustard: #d4b36b;
+  --sage: #86b9a9;
+  --sky: #79bfd1;
+  --violet: #aca4d4;
+  --line: #315462;
   --background: var(--paper);
   --foreground: var(--ink);
-  --muted: #243b46;
+  --muted: #204654;
   --muted-foreground: var(--ink-soft);
   --border: var(--line);
 }
@@ -285,3 +289,28 @@ html.dark .button-dark { background: #eef3f2; color: #172a3b; }
 }
 
 .local-progress-chip { display: inline-flex; align-items: center; gap: 6px; color: var(--muted-foreground); font-size: 10px; font-weight: 800; }
+
+/* Cool palette refinement: keep light and dark surfaces intentionally balanced. */
+.site-header { background: color-mix(in srgb, var(--paper) 92%, transparent); border-bottom-color: color-mix(in srgb, var(--line) 82%, transparent); }
+.button-ghost { background: color-mix(in srgb, var(--card) 72%, transparent); }
+.graph-paper { background-color: var(--paper-deep); background-image: linear-gradient(color-mix(in srgb, var(--ink) 8%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink) 8%, transparent) 1px, transparent 1px); }
+.progress-track { background: var(--muted); }
+.topic-coral .topic-icon, .topic-coral .topic-symbol { background: color-mix(in srgb, var(--coral) 18%, var(--card)); }
+.topic-ochre .topic-icon, .topic-ochre .topic-symbol { background: color-mix(in srgb, var(--mustard) 20%, var(--card)); }
+.topic-sage .topic-icon, .topic-sage .topic-symbol { background: color-mix(in srgb, var(--sage) 20%, var(--card)); }
+.topic-sky .topic-icon, .topic-sky .topic-symbol { background: color-mix(in srgb, var(--sky) 20%, var(--card)); }
+.topic-violet .topic-icon, .topic-violet .topic-symbol { background: color-mix(in srgb, var(--violet) 20%, var(--card)); }
+.formula-block { background: color-mix(in srgb, var(--paper-deep) 72%, var(--card)); }
+.choice:hover, .choice.selected { background: color-mix(in srgb, var(--coral) 15%, var(--card)); }
+.answer-input, .calc-form input { background: var(--card); }
+.difficulty-badge { background: var(--muted); }
+.calc-steps { display: grid; gap: 9px; margin-top: 17px; border-top: 1px solid color-mix(in srgb, currentColor 20%, transparent); padding-top: 14px; }
+.calc-steps-title { font-family: inherit !important; font-size: 10px !important; font-weight: 800 !important; letter-spacing: .1em; text-transform: uppercase; }
+.calc-step { display: flex; align-items: flex-start; gap: 9px; }
+.calc-step > span { display: grid; place-items: center; width: 20px; height: 20px; flex: none; margin-top: 1px; border-radius: 50%; background: color-mix(in srgb, currentColor 16%, transparent); font-size: 10px; }
+.calc-step p { margin: 1px 0 0; font-family: inherit; font-size: 11px; line-height: 1.45; }
+html.dark .site-header { background: color-mix(in srgb, var(--paper) 94%, transparent); border-bottom-color: var(--line); }
+html.dark .graph-paper { background-color: var(--paper-deep); background-image: linear-gradient(color-mix(in srgb, var(--ink) 9%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--ink) 9%, transparent) 1px, transparent 1px); }
+html.dark .choice:hover, html.dark .choice.selected { background: color-mix(in srgb, var(--coral) 22%, var(--card)); }
+html.dark .feedback.correct, html.dark .calc-result.success { background: #1e4a48; color: #b8e0c9; }
+html.dark .feedback.wrong, html.dark .calc-result.failure { background: #4a3035; color: #f3b8b4; }

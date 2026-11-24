@@ -1,4 +1,4 @@
-export type AlgebraResult = { ok: true; value: string; detail?: string } | { ok: false; error: string };
+export type AlgebraResult = { ok: true; value: string; detail?: string; steps?: string[] } | { ok: false; error: string; steps?: string[] };
 
 type Token = number | "x" | "+" | "-" | "*" | "/" | "^" | "(" | ")";
 const allowed = /^[0-9xX+\-*/().\s^×÷−,]+$/;
@@ -84,7 +84,8 @@ export function evaluateExpression(input: string, xValue: string): AlgebraResult
   if (!Number.isFinite(x)) return { ok: false, error: "El valor de x debe ser un número." };
   try {
     const value = parseNumberExpression(normalize(raw), x);
-    return { ok: true, value: Number(value.toFixed(6)).toString(), detail: `${raw} cuando x = ${x}` };
+    const substituted = normalize(raw).replace(/x/gi, `(${x})`);
+    return { ok: true, value: Number(value.toFixed(6)).toString(), detail: `${raw} cuando x = ${x}`, steps: [`Expresión original: ${raw}`, `Sustituye x = ${x}: ${substituted}`, `Resuelve potencias y paréntesis: ${substituted}`, `Opera multiplicaciones y divisiones, y luego sumas y restas.`, `Resultado: ${Number(value.toFixed(6)).toString()}`] };
   } catch {
     return { ok: false, error: "No pude interpretar esa expresión. Revisa los paréntesis y operadores." };
   }
@@ -135,5 +136,6 @@ export function solveLinearEquation(input: string): AlgebraResult {
   const coefficient = left.a - right.a; const constant = right.b - left.b;
   if (coefficient === 0) return constant === 0 ? { ok: true, value: "Infinitas soluciones" } : { ok: false, error: "No hay una solución para esa ecuación." };
   const value = constant / coefficient;
-  return { ok: true, value: Number(value.toFixed(6)).toString(), detail: `Aislamos x: x = (${constant}) / (${coefficient})` };
+  const formattedValue = Number(value.toFixed(6)).toString();
+  return { ok: true, value: formattedValue, detail: `Aislamos x: x = (${constant}) / (${coefficient})`, steps: [`Ecuación original: ${raw}`, `Agrupa las x: (${left.a})x + (${left.b}) = (${right.a})x + (${right.b})`, `Resta (${right.a})x y (${left.b}) a ambos lados: (${coefficient})x = ${constant}`, `Divide ambos lados entre (${coefficient}): x = (${constant}) / (${coefficient})`, `Comprueba sustituyendo x = ${formattedValue} en la ecuación original.`] };
 }
