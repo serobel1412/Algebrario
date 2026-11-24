@@ -22,8 +22,10 @@ function renderSegment(value: string, displayMode = false) {
   return katex.renderToString(toKatex(value), { throwOnError: false, displayMode, strict: "ignore" });
 }
 
-// Finds compact mathematical runs inside Spanish prose without converting ordinary words.
-const autoMathPattern = /(?:(?:[A-Za-z]|\d+)(?:\s*(?:[A-Za-z]|\d+|[⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁽⁾]+|\^|=|≠|≤|≥|\+|−|-|·|⋅|×|÷|\/|\(|\)|,)+)+)/g;
+// Finds only compact mathematical runs inside prose. The previous pattern also
+// matched complete Spanish sentences and sent them to KaTeX as variables.
+const mathAtom = "(?:\\d+(?:\\.\\d+)?[A-Za-z]?|[A-Za-z](?:\\s*\\^\\s*\\d+)?)";
+const autoMathPattern = new RegExp(`(?<![A-Za-z])(?:${mathAtom}\\s*\\^\\s*\\d+|${mathAtom}(?:\\s*(?:[+−\\-×÷=<>]|\\/)\\s*${mathAtom})+)(?![A-Za-z])`, "g");
 
 function renderPlainText(value: string, keyPrefix: string): ReactNode[] {
   const parts: ReactNode[] = [];
